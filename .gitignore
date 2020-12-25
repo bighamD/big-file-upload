@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+dist/
+.editorconfig
+.idea/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+entry.config.js
+
+# IDE config
+jsconfig.json
+launch.json
