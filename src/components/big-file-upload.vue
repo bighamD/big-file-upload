@@ -21,10 +21,10 @@
       </el-table-column>
       <el-table-column align="center">
         <template v-slot="{ row }">
-          <el-button size="small" type="danger" @click="() => pause(row)"
+          <el-button  v-if="row.pause" size="small" @click="() => recover(row)">恢复</el-button>
+          <el-button v-else size="small" type="danger" @click="() => pause(row)"
             >暂停</el-button
           >
-          <el-button size="small" @click="() => recover(row)">恢复</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,21 +46,24 @@ export default {
   },
   methods: {
     pause(row) {
+      row.pause = true;
       row.cancel({
         idx: row.idx,
       });
     },
     async recover(row) {
+      row.pause = false;
       const { idx } = row;
-      const recoverTask = this.pauses.find((t) => t.idx == idx);
+      const recoverTask = this.pauses.find((t) => t.idx === idx);
       if (recoverTask) {
+        console.log(recoverTask.idx)
         await recoverTask.request();
-        this.splicePauseTask();
+        this.splicePauseTask(idx);
         await this.mergeFileRequest();
       }
     },
-    splicePauseTask(recoverTask) {
-        const index = this.pauses.indexOf(recoverTask);
+    splicePauseTask(idx) {
+        const index = this.pauses.findIndex(t => t.idx === idx);
         this.pauses.splice(index, 1); // 成功后移除这个暂停的任务
     },
     handleFileChange(e) {
@@ -89,6 +92,7 @@ export default {
           chunkHash,
           percentage: 0,
           idx,
+          pause: false, // true现实恢复按钮，false显示暂停
           cancel: () => {},
         });
         idx++;
