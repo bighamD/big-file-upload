@@ -10,7 +10,6 @@ import BigFileUpload from './components/big-file-upload.vue'
 export default {
   name: 'App',
   components: {
-    // HelloWorld
     BigFileUpload
   }
 }

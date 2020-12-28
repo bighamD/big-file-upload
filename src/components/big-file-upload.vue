@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     pause(row) {
-      const idx = this.sliceList;
       row.cancel({
         idx: row.idx,
       });
@@ -56,10 +55,13 @@ export default {
       const recoverTask = this.pauses.find((t) => t.idx == idx);
       if (recoverTask) {
         await recoverTask.request();
-        const index = this.pauses.findIndex((t) => t.idx == idx);
-        this.pauses.splice(index, 1); // 成功后移除这个暂停的任务
+        this.splicePauseTask();
         await this.mergeFileRequest();
       }
+    },
+    splicePauseTask(recoverTask) {
+        const index = this.pauses.indexOf(recoverTask);
+        this.pauses.splice(index, 1); // 成功后移除这个暂停的任务
     },
     handleFileChange(e) {
       const [file] = e.target.files;
@@ -93,7 +95,6 @@ export default {
       }
     },
     loopRequest(promises, max = 3) {
-      const len = promises.length;
       const taskPool = [];
       const loopFn = async (tasks) => {
         if (tasks.length === 0) return; // 中断条件
@@ -146,6 +147,10 @@ export default {
           filename: this.file.name,
         },
       });
+      this.$message({
+        message: '上传成功～',
+        type: 'success'
+      })
     },
   },
 };

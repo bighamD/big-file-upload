@@ -1,24 +1,6 @@
-# upload-demo
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 大文件上传demo
+`支持:`
+- 文件切片 (blob的slice方法)
+- 通过FormData把每个切片带给后台
+- 前段限制请求并发 (谷歌浏览器，最大并发为6，多了容易导致浏览器卡死，demo中限制为3)
+- 主动停止上传，可以恢复，若所用暂停的上传任务完成，会发起合并请求
