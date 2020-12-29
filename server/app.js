@@ -11,7 +11,15 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 
 app.use(koaBodyParser());
 app.use(router.routes());
-app.use(router.allowedMethods())
+app.use(router.allowedMethods());
+
+const response = (ctx) => {
+    ctx.body = JSON.stringify({
+        responseCode: 000000,
+        responseMsg: 'SUCCESS'
+    })
+}
+
 
 const pipeStream = (path, writeStream) => {
     return new Promise(resolve => {
@@ -34,8 +42,8 @@ router.post('/upload', async (ctx, res) => {
         const [chunk] = files.chunk;
         const [hash] = fields.chunkHash;
         const [filename] = fields.chunkFilename;
-
         const targetFilePath = path.join(UPLOAD_DIR, hash);
+        
         if (fs.existsSync(targetFilePath)) {
             fs.unlinkSync(chunk.path);
             return;
@@ -46,10 +54,7 @@ router.post('/upload', async (ctx, res) => {
         )
     })
     await sleep();
-    ctx.body = JSON.stringify({
-        responseCode: 000000,
-        responseMsg: 'SUCCESS'
-    })
+    response(ctx);
 });
 
 router.post('/merge', async (ctx, res) => {
@@ -67,13 +72,8 @@ router.post('/merge', async (ctx, res) => {
         }));
     }))
     await sleep();
-    ctx.body = JSON.stringify({
-        responseCode: 000000,
-        responseMsg: 'SUCCESS'
-    })
+    response(ctx);
 });
-
-
 
 app.listen(3000, () => {
     console.log('listening on http://localhost:3000')
