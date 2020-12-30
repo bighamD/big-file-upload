@@ -7,6 +7,10 @@ const fs = require('fs-extra');
 const koaBodyParser = require('koa-body');
 const Multiparty = require('multiparty');
 const UPLOAD_DIR = path.join(__dirname, './uploads');
+const chalk = require('chalk');
+
+const PORT = 3000;
+
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
 
 app.use(koaBodyParser());
@@ -75,7 +79,9 @@ router.post('/merge', async (ctx, res) => {
     response(ctx);
 });
 
-app.listen(3000, () => {
-    console.log('listening on http://localhost:3000')
+app.listen(PORT, () => {
+    console.log();
+    console.log(chalk.green(`listening on http://localhost:${PORT}`));
+    console.log();
 });
 

@@ -11,3 +11,6 @@ entry.config.js
 # IDE config
 jsconfig.json
 launch.json
+
+# upload dir
+server/uploads

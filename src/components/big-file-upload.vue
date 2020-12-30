@@ -14,17 +14,19 @@
         <template v-slot="{ row }">
           <el-progress
             :percentage="row.percentage"
-            status="success"
+            :format="format"
           ></el-progress>
-          {{ row.percentage }} %
         </template>
       </el-table-column>
       <el-table-column align="center">
         <template v-slot="{ row }">
-          <el-button  v-if="row.pause" size="small" @click="() => recover(row)">恢复</el-button>
-          <el-button v-else size="small" type="danger" @click="() => pause(row)"
-            >暂停</el-button
-          >
+          <div v-if="row.percentage !== 100">
+            <el-button  v-if="row.pause" size="small" @click="() => recover(row)">恢复</el-button>
+            <el-button v-else size="small" type="danger" @click="() => pause(row)"
+              >暂停</el-button
+            >
+
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -45,6 +47,9 @@ export default {
     };
   },
   methods: {
+    format (percentage) {
+      return percentage === 100 ? '上传成功' : `${percentage}%`;
+    },
     pause(row) {
       row.pause = true;
       row.cancel({
