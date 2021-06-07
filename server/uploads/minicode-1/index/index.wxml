@@ -1,0 +1,6 @@
+<view class="page-body">
+  56789
+  <view class="page-section page-section-gap">
+    <web-view bindmessage="handleMsg" src="http://localhost:8080"></web-view>
+  </view>
+</view>

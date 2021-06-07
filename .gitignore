@@ -13,4 +13,4 @@ jsconfig.json
 launch.json
 
 # upload dir
-server/uploads
+# server/uploads
